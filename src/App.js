@@ -2,15 +2,31 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
+import * as BookAPI from './BooksAPI'
 import AppTitle from './components/AppTitle'
 import SearchButton from './components/SearchButton'
-import SearchBar from './components/SearchBar'
-import SearchResults from './components/SearchResults'
-
+import SearchScreen from './components/SearchScreen'
+import BookShelf from './components/BookShelf'
 
 class BooksApp extends React.Component {
   state = {
+    books: []
+  }
 
+  // async componentDidMount() {
+  //   await BookAPI.getAll()
+  //   .then((bookList) => {
+  //     this.setState({books: bookList})
+  //     console.log(this.state.books)
+  //   })
+  // }
+
+  onSearchSubmit = async (term) => {
+    const response = await BookAPI.search(term)
+    console.log(response)
+
+    this.setState({books: response})
+    console.log(this.state.books)
   }
 
   render() {
@@ -19,13 +35,13 @@ class BooksApp extends React.Component {
         <Route exact path='/' render={() => (
           <div>
             <AppTitle appName="MyReads App"/>
+            <BookShelf shelfName="Reading now"/>
             <SearchButton />
           </div>
         )} />
         <Route path='/search' render={() => (
           <div>
-            <SearchBar />
-            <SearchResults />
+            <SearchScreen books={this.state.books} onSubmit={this.onSearchSubmit} />
           </div>
         )} />
       </div>

@@ -1,15 +1,25 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
-class SearchResult extends Component {
-  render() {
-    return (
-      <div className="search-books-results">
-        <ol className="books-grid"></ol>
-      </div>
-    )
-  }
+function SearchResults(props) {
+
+  return (
+    <div className="search-books-results">
+      <ol className="books-grid">
+        {props.books.map((book) => {
+            return (
+              <>
+                <li key={book.id}>
+                  <h4>{book.title}</h4>
+                  <img src={book.imageLinks.thumbnail}></img>
+                </li>
+              </>
+            )
+        })} 
+      </ol>
+    </div>
+  )
 }
 
-export default SearchResult
+export default SearchResults
 
