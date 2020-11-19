@@ -2,25 +2,33 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import SearchResults from './SearchResults'
 
+
 class SearchScreen extends Component {
   state = {
     term: ''
   } 
 
-  onInputChange = (e) => {
-    this.setState({
-      term: e.target.value.trim()
-    })
+  onInputChange = (query) => {
+    this.setState(() => ({
+      term: query
+    }))
+
+    console.log(this.state.term)
+    this.props.onSubmit(this.state.term)
   }
 
   onFormSubmit = e => {
     e.preventDefault()
-    this.props.onSubmit(this.state.term)
+  
   }
 
   render() {
-    // const { term } = this.state
-    // const { books } = this.props
+    const { term } = this.state
+    const { books } = this.props
+
+    const showingBooks = term === ''
+    ? []
+    : this.props.books
 
     // const showingBooks = term === ''
     // ? []
@@ -49,13 +57,13 @@ class SearchScreen extends Component {
                 you don't find a specific author or title. Every search is limited by search terms.
               */}
               <form onSubmit={this.onFormSubmit}>
-                <input value={this.state.term} type="text" placeholder="Search by title or author" onChange={this.onInputChange} />
+                <input value={this.state.term} type="text" placeholder="Search by title or author" onChange={(e) => this.onInputChange(e.target.value)} />
               </form>
             </div>
           </div>
         </div>
 
-        <SearchResults books={this.props.books} />
+        <SearchResults books={showingBooks} />
       </>
     )
   }

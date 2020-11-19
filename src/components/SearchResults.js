@@ -7,7 +7,16 @@ function SearchResults(props) {
     <div className="search-books-results">
       <ol className="books-grid">
         {props.books.map((book) => {
-            return (
+            return !book.imageLinks ?
+            (
+              <>
+                <li key={book.id}>
+                  <h4>{book.title}</h4>
+                  <p>No image available</p>
+                </li>
+              </>
+            )
+            : (
               <>
                 <li key={book.id}>
                   <h4>{book.title}</h4>

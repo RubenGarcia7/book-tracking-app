@@ -21,13 +21,17 @@ class BooksApp extends React.Component {
   //   })
   // }
 
-  onSearchSubmit = async (term) => {
-    const response = await BookAPI.search(term)
-    console.log(response)
-
-    this.setState({books: response})
-    console.log(this.state.books)
-  }
+  onSearchSubmit = (term) => {(
+    BookAPI.search(term)
+    .then(data => {
+      if (data !== undefined) {
+        if (!data.error) {
+            this.setState({books: data})
+            console.log(this.state.books)
+        }
+      }
+    })
+  )}
 
   render() {
     return (
