@@ -1,54 +1,51 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-// import * as BooksAPI from './BooksAPI'
 import './App.css'
-import * as BookAPI from './BooksAPI'
-import AppTitle from './components/AppTitle'
-import SearchButton from './components/SearchButton'
-import SearchScreen from './components/SearchScreen'
-import BookShelf from './components/BookShelf'
+import AppContextProvider, { AppContext } from './provider/AppContext'
+import Home from './views/Home'
+import Search from './views/Search'
 
-class BooksApp extends React.Component {
-  state = {
-    books: []
-  }
-
-  onSearchSubmit = (term) => {(
-    BookAPI.search(term)
-    .then(data => {
-      if (data !== undefined) {
-        if (!data.error) {
-            this.setState({books: data})
-            console.log(this.state.books)
-        }
-      }
-    })
-  )}
-
-  changeShelf = (shelf, id) => {
-    console.log(shelf, id)
-  }
-
+class App extends React.Component {
+  
   render() {
     return (
-      <div>
-        <Route exact path='/' render={() => (
-          <div>
-            <AppTitle appName="MyReads App"/>
-            <BookShelf shelfName="Currently Reading"/>
-            <BookShelf shelfName="Want to Read"/>
-            <BookShelf shelfName="Read"/>
-            <SearchButton />
-          </div>
-        )} />
-        <Route path='/search' render={() => (
-          <div>
-            <SearchScreen books={this.state.books} onSubmit={this.onSearchSubmit} onChange={this.changeShelf} />
-          </div>
-        )} />
-      </div>
+      <>
+        <AppContextProvider>
+          <Route exact path='/' render={() => (
+                <AppContext.Consumer>
+                  {context => <Home {...context} />}
+                </AppContext.Consumer>
+              )}/>
+          <Route exact path='/search' render={() => (
+                <AppContext.Consumer>
+                  {context => <Search {...context}/>}
+                  {/* books={this.state.books} onSubmit={this.onSearchSubmit} onChange={this.changeShelf} */}
+                </AppContext.Consumer>
+              )}/>
+        </AppContextProvider> 
+      </>
+      // <div>
+      //   <Route exact path='/' render={() => (
+      //     <>
+      //       <AppContextProvider>
+      //         <AppTitle appName="MyReads App"/>
+      //         <BookShelf shelfName="Currently Reading"/>
+      //         <BookShelf shelfName="Want to Read"/>
+      //         <BookShelf shelfName="Read"/>
+      //         <SearchButton />
+      //       </AppContextProvider> 
+      //     </>
+      //   )} />
+      //   <Route path='/search' render={() => (
+      //     <>
+      //       <AppContextProvider>
+      //         <SearchScreen books={this.state.books} onSubmit={this.onSearchSubmit} onChange={this.changeShelf} />
+      //       </AppContextProvider>
+      //     </>
+      //   )} />
+      // </div>
     )
   }
 }
 
-export default BooksApp
+export default App
