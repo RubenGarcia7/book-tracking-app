@@ -24,26 +24,6 @@ class App extends React.Component {
               )}/>
         </AppContextProvider> 
       </>
-      // <div>
-      //   <Route exact path='/' render={() => (
-      //     <>
-      //       <AppContextProvider>
-      //         <AppTitle appName="MyReads App"/>
-      //         <BookShelf shelfName="Currently Reading"/>
-      //         <BookShelf shelfName="Want to Read"/>
-      //         <BookShelf shelfName="Read"/>
-      //         <SearchButton />
-      //       </AppContextProvider> 
-      //     </>
-      //   )} />
-      //   <Route path='/search' render={() => (
-      //     <>
-      //       <AppContextProvider>
-      //         <SearchScreen books={this.state.books} onSubmit={this.onSearchSubmit} onChange={this.changeShelf} />
-      //       </AppContextProvider>
-      //     </>
-      //   )} />
-      // </div>
     )
   }
 }

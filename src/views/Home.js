@@ -18,14 +18,19 @@ class Home extends Component {
     }
   } 
 
+  updateBooks = (response) => {
+   
+    this.props.addBooks(response);
+  }
 
+  
   render() {
     return (
       <>
           <AppTitle appName="MyReads App"/>
-          <BookShelf shelfName="Currently Reading" books={this.props.currentlyReading}/>
-          <BookShelf shelfName="Want to Read" books={this.props.wantToRead}/>
-          <BookShelf shelfName="Read" books={this.props.read}/>
+          <BookShelf shelfName="Currently Reading" books={this.props.currentlyReading} moveBook={this.updateBooks}/>
+          <BookShelf shelfName="Want to Read" books={this.props.wantToRead} moveBook={this.updateBooks}/>
+          <BookShelf shelfName="Read" books={this.props.read} moveBook={this.updateBooks}/>
           <SearchButton />
       </>
     )

@@ -1,21 +1,18 @@
 import React, { Component } from 'react'
+import * as BookAPI from '../BooksAPI'
 import BookShelf from './BookShelf'
 
 class Book extends Component {
-  state = {
-    shelf: 'none',
-    id: this.props.id
-  }
-
-  onSelectChange = (e) => {
-    this.setState({
-      shelf: e.target.value,
-    })
-
-    this.props.onChange({
-      shelf: this.state.shelf,
-      id: this.state.id
-    })
+  
+  handleChange = async (e) => {
+    const shelf = e.target.value
+    const book = this.props
+    try {
+      const response = await BookAPI.update(book, shelf)
+      this.props.moveBook(response)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   render() {
@@ -26,7 +23,7 @@ class Book extends Component {
           <div className="book-top">
             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url('${this.props.imageLinks ? this.props.imageLinks.thumbnail : ''}')`}}></div>
             <div className="book-shelf-changer">
-              <select value={this.state.shelf} onChange={this.onSelectChange}>
+              <select value={this.props.shelf} onChange={this.handleChange}>
                 <option value="move" disabled>Move to...</option>
                 <option value="currentlyReading">Currently Reading</option>
                 <option value="wantToRead">Want to Read</option>

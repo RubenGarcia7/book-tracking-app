@@ -9,6 +9,17 @@ class Search extends Component {
     books: []
   } 
 
+  async componentDidMount() {
+    try {
+      const books = await BookAPI.getAll()
+      this.props.addBooks(books);
+    }
+
+    catch(err) {
+      console.log(err)
+    }
+  } 
+
   onInputChange = async (query) => {
     try {
       this.setState({term: query})
@@ -31,6 +42,11 @@ class Search extends Component {
 
   onFormSubmit = e => {
     e.preventDefault()
+  }
+
+  updateBooks = (response) => {
+    
+    this.props.addBooks(response);
   }
 
 
@@ -70,8 +86,18 @@ class Search extends Component {
         <div className="search-books-results">
           <ol className="books-grid">
             {showingBooks.map((book) => {
-                return (
-                  <Book {...book} onChange={this.handleChange}
+              const matchShelf = this.props.books.find((bookSearch) => {
+                return bookSearch.id === book.id
+              })
+
+              if(matchShelf) {
+                book.shelf = matchShelf.shelf
+              } else {
+                book.shelf = 'none'
+              }
+
+              return (
+                  <Book {...book} moveBook={this.updateBooks}
                   />
                 )
             })} 
