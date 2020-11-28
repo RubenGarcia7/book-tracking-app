@@ -19,7 +19,6 @@ class App extends React.Component {
           <Route exact path='/search' render={() => (
                 <AppContext.Consumer>
                   {context => <Search {...context}/>}
-                  {/* books={this.state.books} onSubmit={this.onSearchSubmit} onChange={this.changeShelf} */}
                 </AppContext.Consumer>
               )}/>
         </AppContextProvider> 
