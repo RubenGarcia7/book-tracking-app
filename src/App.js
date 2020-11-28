@@ -1,27 +1,37 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 import './App.css'
-import AppContextProvider, { AppContext } from './provider/AppContext'
+import * as BookAPI from './BooksAPI'
 import Home from './views/Home'
 import Search from './views/Search'
 
 class App extends React.Component {
-  
+  state = {
+    books: [],
+    currentlyReading: [],
+    wantToRead: [],
+    read: []
+  }
+
+  addBooks = (books) => {
+    const currentlyReading = books.filter(book => book.shelf === 'currentlyReading')
+    const wantToRead = books.filter(book => book.shelf === 'wantToRead')
+    const read = books.filter(book => book.shelf === 'read')
+
+    this.setState({books, currentlyReading, wantToRead, read})
+  }
+
   render() {
+    const { books, currentlyReading, wantToRead, read} = this.state
+
     return (
       <>
-        <AppContextProvider>
-          <Route exact path='/' render={() => (
-                <AppContext.Consumer>
-                  {context => <Home {...context} />}
-                </AppContext.Consumer>
-              )}/>
-          <Route exact path='/search' render={() => (
-                <AppContext.Consumer>
-                  {context => <Search {...context}/>}
-                </AppContext.Consumer>
-              )}/>
-        </AppContextProvider> 
+          <Route exact path='/'>
+            <Home books={books} currentlyReading={currentlyReading} wantToRead={wantToRead} read={read} addBooks={this.addBooks}/>
+          </Route> 
+          <Route exact path='/search'>
+            <Search books={books} currentlyReading={currentlyReading} wantToRead={wantToRead} read={read} addBooks={this.addBooks}/>
+          </Route>
       </>
     )
   }

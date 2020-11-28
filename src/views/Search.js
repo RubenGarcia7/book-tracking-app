@@ -32,7 +32,7 @@ class Search extends Component {
           this.setState({books: results})
       }
 
-      console.log(results)
+
   }
 
     catch(err) {
@@ -44,11 +44,15 @@ class Search extends Component {
     e.preventDefault()
   }
 
-  updateBooks = (response) => {
-    
-    this.props.addBooks(response);
-  }
+  moveBook = async (shelf, book) => {
+    try {
+      const response = await BookAPI.update(book, shelf)
+    }
 
+    catch(err) {
+      console.log(err)
+    }
+  }
 
 
   render() {
@@ -59,14 +63,6 @@ class Search extends Component {
     ? []
     : this.state.books
 
-    // const showingBooks = term === ''
-    // ? []
-    // : books.filter((book) => (
-    //   book.title.toLowerCase().includes(term.toLowerCase())
-    // ))
-
-    // console.log(showingBooks)
-    
     return (
       <>
         <div className="search-books">
@@ -97,7 +93,7 @@ class Search extends Component {
               }
 
               return (
-                  <Book {...book} moveBook={this.updateBooks}
+                  <Book key={book.id} {...book} moveBook={this.moveBook}
                   />
                 )
             })} 

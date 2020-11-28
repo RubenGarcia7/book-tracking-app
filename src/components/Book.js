@@ -4,15 +4,11 @@ import BookShelf from './BookShelf'
 
 class Book extends Component {
   
-  handleChange = async (e) => {
+  handleChange = (e) => {
     const shelf = e.target.value
     const book = this.props
-    try {
-      const response = await BookAPI.update(book, shelf)
-      this.props.moveBook(response)
-    } catch (err) {
-      console.log(err)
-    }
+   
+    this.props.moveBook(shelf, book)
   }
 
   render() {
@@ -33,7 +29,7 @@ class Book extends Component {
             </div>
           </div>
           <div className="book-title">'{this.props.title}'</div>
-          <div className="book-authors">{this.props.authors ? this.props.authors[0] : ''}</div>
+          <div className="book-authors">{this.props.authors ? this.props.authors : ''}</div>
         </div>
       </li>
  
