@@ -6,7 +6,8 @@ import SearchButton from '../components/SearchButton'
 
 
 class Home extends Component {
-
+  
+  // Get all books afer component has mounted
   async componentDidMount() {
     try {
       const books = await BookAPI.getAll()
@@ -18,6 +19,7 @@ class Home extends Component {
     }
   } 
 
+   // Update book to a new shelf and get updated book list from API to reflect the changes
   moveBook = async (shelf, book) => {
     try {
       const response = await BookAPI.update(book, shelf)

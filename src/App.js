@@ -13,6 +13,7 @@ class App extends React.Component {
     read: []
   }
 
+  // Main function that sets the state after each getAll API call
   addBooks = (books) => {
     const currentlyReading = books.filter(book => book.shelf === 'currentlyReading')
     const wantToRead = books.filter(book => book.shelf === 'wantToRead')

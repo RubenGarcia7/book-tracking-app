@@ -9,6 +9,7 @@ class Search extends Component {
     books: []
   } 
 
+  // Get all books afer component has mounted
   async componentDidMount() {
     try {
       const books = await BookAPI.getAll()
@@ -20,6 +21,7 @@ class Search extends Component {
     }
   } 
 
+  // Update state while typing and send API search request
   onInputChange = async (query) => {
     try {
       this.setState({term: query})
@@ -29,11 +31,9 @@ class Search extends Component {
       if (results.error) {
         this.setState({books: []})
       } else {
-          this.setState({books: results})
+        this.setState({books: results})
       }
-
-
-  }
+    }
 
     catch(err) {
       console.log(err)
@@ -44,6 +44,7 @@ class Search extends Component {
     e.preventDefault()
   }
 
+  // Update book to a new shelf and get updated book list from API to reflect the changes
   moveBook = async (shelf, book) => {
     try {
       const response = await BookAPI.update(book, shelf)
@@ -58,7 +59,8 @@ class Search extends Component {
   render() {
     const { term } = this.state
     const { books } = this.props
-
+    
+    // Conditional to ensure no results are displayed if the search bar is empty
     const showingBooks = term === ''
     ? []
     : this.state.books
@@ -81,6 +83,7 @@ class Search extends Component {
         </div> 
         <div className="search-books-results">
           <ol className="books-grid">
+            {/* This makes sure that if a book returned from the search results is already in the app, the correct shelf option is preselected */}
             {showingBooks.map((book) => {
               const matchShelf = this.props.books.find((bookSearch) => {
                 return bookSearch.id === book.id

@@ -23,5 +23,5 @@ $ npm start
 1. Inverse data flow
 
 # Author
-* **Ruben Garcia Bri**
+* **Ruben Garcia Bri** - 
 [Github](https://github.com/RubenGarcia7)

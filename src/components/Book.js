@@ -3,7 +3,8 @@ import * as BookAPI from '../BooksAPI'
 import BookShelf from './BookShelf'
 
 class Book extends Component {
-  
+
+  // Get the shelf and book values and pass them up to the home and search components
   handleChange = (e) => {
     const shelf = e.target.value
     const book = this.props
